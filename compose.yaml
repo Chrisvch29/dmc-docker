@@ -1,0 +1,15 @@
+services:
+  api:
+    build: .
+    image: tienda-api:1.0
+    ports: ["8080:5000"]
+    environment:
+      REDIS_HOST: cache
+    depends_on: [cache]
+  cache:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes: ["redis-data:/data"]
+volumes:
+  redis-data:
+    external: true   # creado en el paso 4
